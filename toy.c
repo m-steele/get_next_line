@@ -2,60 +2,91 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
+
+//Flags for open() function
+// O_RDONLY		Open for reading only
+// O_WRONLY		Open for writing only
+// O_RDWR		Open for reading and writing
+// O_CREAT		Create file if it doesn't exist
+// O_APPEND		Append on each write
+// O_DIRECTORY	Open a directory
+// O_CLOEXEC	Close the file descriptor upon execution of an exec family function
+// O_EXCL		Ensure that this call creates the file: if this flag is specified in conjunction with O_CREAT, and pathname already exists, then open() will fail
+
+size_t	length(const char *s)
+{
+	const char	*str;
+
+	str = s;
+	while (*s++)
+		;
+	return (s - str - 1);
+}
+
+char	*join(const char *s1, const char *s2)
+{
+	char	*str;
+	char	*jn;
+	
+	jn = (char *)malloc(length(s1) + length(s2) + 1);
+	if (!jn)
+		return (0);
+	str = jn;
+	while (*s1)
+		*jn++ = *s1++;
+	while (*s2)
+		*jn++ = *s2++;
+	*jn = '\0';
+	return (str);
+}
+
 void ft()
 {	static int	x = 0;
-	x++;
-	printf("Size From ft(): %i\n", x);}
+	x += 	printf("Size x: %i\n", x);
+	// read(0, buffer, sizeof(buffer));
+}
 
 int main()
-{	char new[]= "Clowning Around";
-	char	*s;
-	int		n = strlen(new);
-	s = new;
-	ft(printf("Size of 'A': %i\n", n));
-	while (s)
+{
+	ssize_t bytesRead;
+	int fd = open("test.txt", O_RDONLY);
+	printf("%i\n", fd);
+	printf("%li\n", (size_t)length(fd));
+	if (fd == -1)
+		{
+			perror("ERROR opening file");
+			return (1);
+		}
+	char buff[length(fd)];	
+	while ((bytesRead = read(fd, buff, sizeof(buff) - 1)) > 0)
 	{
-	n -= write(1, &s, n)/2;
-	printf("\n\n");
+		buff[bytesRead] = '\0';
+		printf("%s\n", buff);
 	}
-	n += write(1, &new, n)/2;
-	printf("\n\n");
-	// printf("\nTRACKER\n");
-	ft(printf("Size of 'A' after 1: %i\n", n));
-	n = write(1, &new, n);
-	ft(printf("\n\n"));
-	ft(printf("Size of 'A' after 2: %i\n", n));
-	n = write(1, &new, n);
-	ft(printf("\n\n"));
-	ft(printf("Size of 'A' after 3: %i\n", n));
-	n = write(1, &new, n);
-	ft(printf("\n\n"));
-	// printf("Original: %s\nThe Copy3: %ld\n", new, n3);
-	printf("Size of 'A' at end: %i\n", n);
-		printf("\n\n");
+	if (bytesRead == -1)
+	{
+		perror("ERROR reading file");
+		return (1);
+	}
+	close(fd);
 	return (0);
-	}
+}
 
+
+// This was used to understand how static variables work
 // int main()
-// {	char new[] = "Clowning Around";
-// 	size_t		n1;
-// 	size_t 		n2;
-// 	size_t 		n3;
-// 	size_t 		n4;
-// 	int			a = 5;
-// 	ft(printf("Size of 'A' before 1: %i\n", a));
-// 	n1 = write(1, &new, a); 	a+=a/2;
+// {		char new[]= "Clowning Around";
+// 	int	n = 5;
+// // ft() --> captures num of chars, including "Size of 'A' ...
+// 	ft(printf("Size of 'A': %i\n", n)); 
+// 	n += write(1, &new, n)/2;
 // 	printf("\n\n");
-// 	ft(printf("Size of 'A' after 1: %i\n", a));
-// 	n2 = write(1, &new, a); 	a+=a/2;
+// 	// printf("\nTRACKER\n");
+// 	ft(printf("Size of 'A' after 1: %i\n", n));
+// 	n = write(1, &new, n);
 // 	ft(printf("\n\n"));
-// 	ft(printf("Size of 'A' after 2: %i\n", a));
-// 	n3 = write(1, &new, a); 	a+=a/2;
-// 	ft(printf("\n\n"));
-// 	ft(printf("Size of 'A' after 3: %i\n", a));
-// 	n3 = write(1, &new, a);
-// 	ft(printf("\n\n"));
-// 	printf("Size of 'A' at end: %i\n", a);
+// 	printf("Size of 'A' at end: %i\n", n);
 // 		printf("\n\n");
 // 	return (0);
 // 	}

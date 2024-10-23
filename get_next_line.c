@@ -8,7 +8,7 @@ char *get_next_line(int fd)
 	
 	while (fd)
 	
-	read(fd, buf, nbyte = ft_strlen(/**/));
+	read(fd, buf, nbyte = length(/**/));
 
 	gnl += ft_strAPEND(buf);
 
