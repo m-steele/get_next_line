@@ -14,7 +14,7 @@
 // O_CLOEXEC	Close the file descriptor upon execution of an exec family function
 // O_EXCL		Ensure that this call creates the file: if this flag is specified in conjunction with O_CREAT, and pathname already exists, then open() will fail
 
-size_t	length(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	const char	*str;
 
@@ -24,7 +24,7 @@ size_t	length(const char *s)
 	return (s - str - 1);
 }
 
-char	*join(const char *s1, const char *s2)
+char	*ft_join(const char *s1, const char *s2)
 {
 	char	*str;
 	char	*jn;
@@ -50,25 +50,29 @@ void ft()
 int main()
 {
 	ssize_t bytesRead;
-	int fd = open("test.txt", O_RDONLY);
-	printf("%i\n", fd);
-	printf("%li\n", (size_t)length(fd));
+	int fd = open("test2.txt", O_RDONLY);
+	printf("Value of fd: %i\n\n", fd);
+	// printf("%i\n", length(fd));
 	if (fd == -1)
 		{
 			perror("ERROR opening file");
 			return (1);
 		}
-	char buff[length(fd)];	
+	char buff[	42	];
+	// while ((bytesRead = read(fd, buff, length(buff) - 1)) > 0)
 	while ((bytesRead = read(fd, buff, sizeof(buff) - 1)) > 0)
+	// bytesRead = read(fd, buff, sizeof(buff) - 1);
 	{
+		printf("bytesRead: %li\n", bytesRead);
 		buff[bytesRead] = '\0';
-		printf("%s\n", buff);
+		printf("%s\n\n", buff);
 	}
 	if (bytesRead == -1)
 	{
 		perror("ERROR reading file");
 		return (1);
 	}
+
 	close(fd);
 	return (0);
 }
