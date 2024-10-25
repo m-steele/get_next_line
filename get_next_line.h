@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 11:04:29 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/10/23 15:40:34 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/10/25 08:34:47 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ char	*get_next_line(int fd);
 char	*ft_join(char *s1, char *s2);
 char	*ft_strdup(char *s);
 char	*ft_strchr(char *s, int c);
-char	*ft_substr(char *s, unsigned int start, size_t len);
 size_t	ft_strlen(char *s);
-size_t	ft_strlcpy(char *dst, char *src, size_t size);/*memcpy() length()*/
-size_t	ft_strlcat(char *dst, char *src, size_t size); /*memcpy() length()*/
 
 #endif

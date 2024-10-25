@@ -1,15 +1,15 @@
 #include <stdlib.h>
+#include "get_next_line.h"
 
 char *get_next_line(int fd)
 {
-	void	*buf;
-	char	*gnl;
-	size_t	nbyte;
-	
-	while (fd)
-	
-	read(fd, buf, nbyte = ft_strlen(/**/));
+	static char	*build;
+	void		*buf;
+	char		*gnl;
+	size_t		nbyte;
 
-	gnl += ft_strAPEND(buf);
+	read(fd, buf, nbyte = ft_strlen(fd));
+
+	gnl = ft_strchr(buf, nbyte);
 
 }

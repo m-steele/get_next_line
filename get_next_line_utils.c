@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:59:03 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/10/23 15:45:59 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/10/24 10:01:36 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	*jn = '\0';
 	return (str);
 }
+
+char	*ft_strdup(const char *s)
+{
+	char	*new;
+	char	*start;
+
+	new = (char *)malloc(ft_strlen(s) + 1);
+	if (!new)
+		return (NULL);
+	start = new;
+	while (*s)
+		*new++ = *s++;
+	*new = '\0';
+	return (start);
+}
+
 
 #include <stdio.h>
 
