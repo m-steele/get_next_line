@@ -1,17 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 10:59:03 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/10/24 10:01:36 by peatjohnsto      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdlib.h>
-#include <fcntl.h> /*For the open() used here for testing*/
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+
+
+char	*sncopy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
 
 char *ft_strchr(const char *s, int c)
 {
@@ -63,19 +72,3 @@ char	*ft_strdup(const char *s)
 	*new = '\0';
 	return (start);
 }
-
-
-#include <stdio.h>
-
-// int main()
-// {
-// 	char s1[] = "I am ";
-// 	char s2[] = "a pig!";
-// 	char *new = join(s1, s2);
-// 	if (new)
-// 	{
-// 		printf("%s\n", new);
-// 		free (new);
-// 	}
-// 	return(0);
-// }
