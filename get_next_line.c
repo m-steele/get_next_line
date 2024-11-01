@@ -1,68 +1,86 @@
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 10:00:42 by peatjohnsto       #+#    #+#             */
+/*   Updated: 2024/11/01 10:04:38 by peatjohnsto      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*next_line(char **str, char *remain)
+// read(fd, void buf, int)
+static char	*read_line(int fd, char *str)
 {
-	char	*line;
-	size_t	len;
+	char		*buff;
+	char		*temp;
+	ssize_t		tlen;
 
-	len = remain - *str + 1;
-	line = (char *)malloc(len + 1);
-	if (!line)
+	buff = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buff)
 		return (NULL);
-	sncopy(line, *str, len); /*custom strncpy()*/
-	line[len] = '\0';
-	*str = ft_strdup(remain + 1);
-	return (line);
-}
-
-char	*last_line(char **str)
-{
-	char	*line;
-	line = ft_strdup(*str);
-	if (!line)
+	tlen = read(fd, buff, BUFFER_SIZE);
+	if (tlen <= 0)
+	{
+		free(buff);
 		return (NULL);
-	free(*str);
-	*str = NULL;
-	return (line);
+	}
+	buff[tlen] = '\0';
+	temp = str;
+	str = ft_strjoin(str, buff);
+	free(temp);
+	free (buff);
+	return(str);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*str;
-	char		*buff;
-	char		*remain;
-	int			reader;
+	char		*line;
+	char		*nlposit; /*next line position*/
 
-	if (!str)
- 		str = ft_strdup("");
-	buff = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buff)
-		return (0);
-	while (!ft_strchr(str, '\n') && reader > 0)
+	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
 	{
-		reader = read(fd, buff, BUFFER_SIZE);
-		buff[reader] = '\0';
-		str = ft_strjoin(str, buff);
+		free(str);
+		str = NULL;
+		return (NULL);
 	}
-	free(buff);
-	if (!str[0])
-		return (0);
-	remain = ft_strchr(str, '\n');
-	if (remain)
-		// printf("remain = ft_strchr(str, ) =%s\n", remain);
-		return (next_line(&str, remain));
-	return (last_line(&str));
+	if (!str)
+		str = ft_strdup("");
+	str = read_line(fd, str);
+	if (!str)
+		return (NULL);
+	nlposit = ft_strchr(str, '\n');
+	if (nlposit)
+	{
+		*nlposit = '\0';\
+		line = ft_strdup(str);
+		str = ft_strdup(nlposit + 1);
+	}
+	else
+	{
+		line = ft_strdup(str);
+		free(str);
+		str = NULL;
+	}
+	return (line);
+	// return (return_line(str));
 }
 
+// use this for viewing what is in *str at whatever location
+// printf("\033[1;31m*str:\n%s\n\033[0m", *str);
+// valgrind --leak-check=full --show-leak-kinds=all -s ./a.out
+#include <stdio.h>
 int main()
 {
 	int		fd;
 	char	*line;
 	int		lns;
-
 	lns = 0;
-	fd = open("test2.txt", O_RDONLY);
+	fd = open("testx.txt", O_RDONLY);
 	if (fd == -1)
 	{
 		printf("Error opening file\n");

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 
+// read(fd, void buf, int)
 //Flags for open() function
 // O_RDONLY		Open for reading only
 // O_WRONLY		Open for writing only
