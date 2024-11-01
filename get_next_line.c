@@ -6,13 +6,14 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:00:42 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/01 10:04:38 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/01 10:34:49 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "get_next_line.h"
 
-// read(fd, void buf, int)
+// ssize_t read(fd, void buf, int)
 static char	*read_line(int fd, char *str)
 {
 	char		*buff;
@@ -53,19 +54,25 @@ char	*get_next_line(int fd)
 	str = read_line(fd, str);
 	if (!str)
 		return (NULL);
+	printf("\033[1;30mstr:%s\n\033[0m", str);
+
 	nlposit = ft_strchr(str, '\n');
+	printf("\033[1;31mnlposit:%s\n\033[0m", nlposit);
 	if (nlposit)
 	{
-		*nlposit = '\0';\
+		*nlposit = '\0';
 		line = ft_strdup(str);
 		str = ft_strdup(nlposit + 1);
 	}
+
 	else
 	{
 		line = ft_strdup(str);
 		free(str);
 		str = NULL;
 	}
+
+
 	return (line);
 	// return (return_line(str));
 }
