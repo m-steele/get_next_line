@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:00:42 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/02 09:29:05 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/02 11:53:22 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,76 +15,76 @@
 
 // ssize_t read(fd, void buf, int)
 
-// static char	*read_line(int fd, char *str)
-// {
-// 	char		*buff;
-// 	char		*temp;
-// 	ssize_t		tlen;
+static char	*read_line(int fd, char *str)
+{
+	char		*buff;
+	char		*temp;
+	ssize_t		tlen;
 
-// 	buff = (char *)malloc(BUFFER_SIZE + 1);
-// 	if (!buff)
-// 		return (NULL);
-// 	tlen = read(fd, buff, BUFFER_SIZE);
-// 	if (tlen <= 0)
-// 	{
-// 		free(buff);
-// 		return (NULL);
-// 	}
-// 	buff[tlen] = '\0';
-// 	temp = str;
-// 	str = ft_strjoin(str, buff);
-// 	free(temp);
-// 	free (buff);
-// 	return(str);
-// }
+	buff = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buff)
+		return (NULL);
+	tlen = read(fd, buff, BUFFER_SIZE);
+	if (tlen <= 0)
+	{
+		free(buff);
+		return (NULL);
+	}
+	buff[tlen] = '\0';
+	temp = str;
+	str = ft_strjoin(str, buff);
+	free(temp);
+	free (buff);
+	return(str);
+}
 
-// char	*get_next_line(int fd)
-// {
-// 	static char	*str;
-// 	char		*line;
-// 	char		*nlposit; /*next line position*/
+char	*get_next_line(int fd)
+{
+	static char	*str;
+	char		*line;
+	char		*nlposit; /*next line position*/
 
-// 	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
-// 	{
-// 		free(str);
-// 		str = NULL;
-// 		return (NULL);
-// 	}
-// 	if (!str)
-// 		str = ft_strdup("");
-// 	str = read_line(fd, str);
-// 	if (!str)
-// 		return (NULL);
-// 	printf("\033[1;30mstr:%s\n\033[0m", str);
+	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
+	{
+		free(str);
+		str = NULL;
+		return (NULL);
+	}
+	if (!str)
+		str = ft_strdup("");
+	str = read_line(fd, str);
+	if (!str)
+		return (NULL);
+	printf("\033[1;30mstr:%s\n\033[0m", str);
 
-// 	nlposit = ft_strchr(str, '\n');
-// 	printf("\033[1;31mnlposit:%s\n\033[0m", nlposit);
-// 	if (nlposit)
-// 	{
-// 		*nlposit = '\0';
-// 		line = ft_strdup(str);
-// 		char *temp = str;
-// 		str = ft_strdup(nlposit + 1);
-// 		free(temp);
-// 	}
+	nlposit = ft_strchr(str, '\n');
+	printf("\033[1;31mnlposit:%s\n\033[0m", nlposit);
+	if (nlposit)
+	{
+		*nlposit = '\0';
+		line = ft_strdup(str);
+		char *temp = str;
+		str = ft_strdup(nlposit + 1);
+		free(temp);
+	}
 
-// 	else
-// 	{
-// 		if (*str == '\0')
-// 		{
-// 			free(str);
-// 			str = NULL;
-// 			return (NULL);
-// 		}
-// 		line = ft_strdup(str);
-// 		free(str);
-// 		str = NULL;
-// 	}
+	else
+	{
+		if (*str == '\0')
+		{
+			free(str);
+			str = NULL;
+			return (NULL);
+		}
+		line = ft_strdup(str);
+		free(str);
+		str = NULL;
+	}
 
 
-// 	return (line);
-// 	// return (return_line(str));
-// }
+	return (line);
+	// return (return_line(str));
+}
 
 
 // use this for viewing what is in *str at whatever location

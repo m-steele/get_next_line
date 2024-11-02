@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:59:00 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/02 10:50:28 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/02 11:46:37 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,23 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (sub_s);
 }
 
-void	*f_calloc(size_t n, size_t size)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*point;
+	unsigned char	*pnt;
+	size_t			i;
 
-	if (!n || !size)
+	i = 0;
+	if (nmemb && (nmemb * size) / nmemb != size)
 		return (NULL);
-	if (n * size / size != n)
+	pnt = (void *)malloc(nmemb * size);
+	if (!pnt)
 		return (NULL);
-	point = (void *)malloc(n * size);
-	if (!point)
-		return (NULL);
-	while (n--)
-		((unsigned char *)point)[n] = (unsigned char)0;
-	return (point);
+	while (i < nmemb * size)
+		pnt[i++] = 0;
+	return (pnt);
 }
 
-// char	*sncopy(char *dest, const char *src, size_t n)
+// char	*strncpy(char *dest, const char *src, size_t n)
 // {
 // 	size_t	i;
 
