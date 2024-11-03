@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_v4.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
+/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 10:00:42 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/10/31 13:05:26 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/03 12:06:27 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 
 // THIS PASSES MOST OF THE TESTS; RUNS INTO PROBLEMS WITH:
 // NULL CHECK ON MULTIPLE NEW LINES WHEN BUFF IS 10 AND 1000000
-
-static void	get_line(int fd, char *buff, char **str)
-{
-	char	*temp;
-	ssize_t	len;
-
-	while ((!*str || !ft_strchr(*str, '\n')) && (len = read(fd, buff, BUFFER_SIZE)) > 0)
-	{
-		buff[len] = '\0';
-		if (!*str)
-			*str = ft_substr(buff, 0, len);
-		else
-		{
-			temp = *str;
-			*str = ft_strjoin(*str, buff);
-			free(temp);
-		}
-	}
-	free(buff);
-}
 
 // static void	get_line(int fd, char *buff, char **str)
 // {
@@ -62,6 +42,25 @@ static void	get_line(int fd, char *buff, char **str)
 // 	free(buff);
 // }
 
+static void	get_line(int fd, char *buff, char **str)
+{
+	char	*temp;
+	ssize_t	len;
+
+	while ((!*str || !ft_strchr(*str, '\n')) && (len = read(fd, buff, BUFFER_SIZE)) > 0)
+	{
+		buff[len] = '\0';
+		if (!*str)
+			*str = ft_substr(buff, 0, len);
+		else
+		{
+			temp = *str;
+			*str = ft_strjoin(*str, buff);
+			free(temp);
+		}
+	}
+	free(buff);
+}
 
 static char	*return_line(char **str)
 {
@@ -76,7 +75,7 @@ static char	*return_line(char **str)
 	{
 		line = ft_substr(*str, 0, delim - *str + 1);
 		temp = *str;
-		*str = ft_strdup(delim + 1); /* ft_substr(delim + 1, 0, ft_strlen(delim + 1));	*/
+		*str = ft_strdup(delim + 1);
 		free(temp);
 		if (*str && **str == '\0')
 		{
@@ -90,6 +89,26 @@ static char	*return_line(char **str)
 		*str = NULL;
 	}
 	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*str;
+	char		*buff;
+
+	buff = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buff)
+		return (NULL);
+	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
+	{
+		free(buff);
+		free(str);
+		str = NULL;
+		buff = NULL;
+		return (NULL);
+	}
+	get_line(fd, buff, &str);
+	return (return_line(&str));
 }
 
 // static char	*return_line(char **str)
@@ -130,26 +149,6 @@ static char	*return_line(char **str)
 // 	get_line(fd, buff, &str);
 // 	return (return_line(&str));
 // }
-
-char	*get_next_line(int fd)
-{
-	static char	*str;
-	char		*buff;
-
-	buff = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buff)
-		return (NULL);
-	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
-	{
-		free(buff);
-		free(str);
-		str = NULL;
-		buff = NULL;
-		return (NULL);
-	}
-	get_line(fd, buff, &str);
-	return (return_line(&str));
-}
 
 // use this for viewing what is in *str at whatever location
 // printf("\033[1;31m*str:\n%s\n\033[0m", *str);

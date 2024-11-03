@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
+/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:59:00 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/02 11:46:37 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/03 12:20:29 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 {
 	const char	*str;
 
+	if (!s)
+		return (0);
 	str = s;
 	while (*s++)
 		;
@@ -64,7 +66,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		return (NULL);
 	jn = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!jn)
-		return (0);
+		return (NULL);
 	str = jn;
 	while (*s1)
 		*jn++ = *s1++;
