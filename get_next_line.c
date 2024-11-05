@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:46:01 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/05 08:16:36 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/05 10:52:00 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	get_line(int fd, char *buff, char **str)
 		{
 			buff[len] = '\0';
 			if (!*str)
-				*str = ft_substr(buff, 0, len);
+				*str = ft_strdup(buff);
 			else
 			{
 				temp = *str;
@@ -73,9 +73,7 @@ char	*get_next_line(int fd)
 
 	buff = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buff)
-	{
 		return (NULL);
-	}
 	if (fd == -1 || BUFFER_SIZE < 1 || read(fd, 0, 0) < 0)
 	{
 		free(buff);
