@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 09:59:00 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/03 12:20:29 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/05 09:04:33 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strdup(const char *s)
 	char	*start;
 
 	if (!s)
-		return (NULL);/**/
+		return (NULL);
 	new = (char *)malloc(ft_strlen(s) + 1);
 	if (!new)
 		return (NULL);
@@ -100,23 +100,23 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	return (sub_s);
 }
 
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	unsigned char	*pnt;
-	size_t			i;
+// void	*ft_calloc(size_t nmemb, size_t size)
+// {
+// 	unsigned char	*pnt;
+// 	size_t			i;
 
-	i = 0;
-	if (nmemb && (nmemb * size) / nmemb != size)
-		return (NULL);
-	pnt = (void *)malloc(nmemb * size);
-	if (!pnt)
-		return (NULL);
-	while (i < nmemb * size)
-		pnt[i++] = 0;
-	return (pnt);
-}
+// 	i = 0;
+// 	if (nmemb && (nmemb * size) / nmemb != size)
+// 		return (NULL);
+// 	pnt = (void *)malloc(nmemb * size);
+// 	if (!pnt)
+// 		return (NULL);
+// 	while (i < nmemb * size)
+// 		pnt[i++] = 0;
+// 	return (pnt);
+// }
 
-// char	*strncpy(char *dest, const char *src, size_t n)
+// char	*strncpy(const char *dest, const char *src, size_t n)
 // {
 // 	size_t	i;
 
