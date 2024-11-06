@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl_working_copy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:46:01 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/06 14:23:22 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/06 14:07:31 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,10 @@ static void	get_line(int fd, char *buff, char **str)
 	}
 }
 
-static char	*call_line(char *delim, char ***str)
-{
-	char	*temp;
-	char	*line;
-
-	line = ft_substr(**str, 0, delim - **str + 1);
-	if (!line)
-	{
-		free(**str);
-		**str = NULL;
-		return (NULL);
-	}
-	else
-	{
-		temp = **str;
-		**str = ft_strdup(delim + 1);
-		free(temp);
-	}
-	return (line);
-}
-
 static char	*return_line(char **str)
 {
 	char	*line;
+	char	*temp;
 	char	*delim;
 
 	if (!*str)
@@ -73,7 +53,12 @@ static char	*return_line(char **str)
 	}
 	else
 	{
-		line = call_line(delim, &str);
+		line = ft_substr(*str, 0, delim - *str + 1);
+		if (!line)
+			return (free(*str), *str = NULL, NULL);
+		temp = *str;
+		*str = ft_strdup(delim + 1);
+		free(temp);
 		if (*str && **str == '\0')
 		{
 			free(*str);
