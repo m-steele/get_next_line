@@ -6,7 +6,7 @@
 /*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:46:01 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/06 14:23:22 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:03:50 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ static char	*call_line(char *delim, char ***str)
 
 	line = ft_substr(**str, 0, delim - **str + 1);
 	if (!line)
-	{
-		free(**str);
-		**str = NULL;
-		return (NULL);
-	}
+		return (free(**str), **str = NULL, NULL);
+	// {
+	// 	free(**str);
+	// 	**str = NULL;
+	// 	return (NULL);
+	// }
 	else
 	{
 		temp = **str;
@@ -90,15 +91,16 @@ char	*get_next_line(int fd)
 
 	buff = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (free(str), str = NULL, NULL);
+		// return (free(str), str = NULL, NULL);
 	if (fd == -1 || read(fd, 0, 0) < 0 || BUFFER_SIZE < 1)
-	{
-		free(buff);
-		free(str);
-		str = NULL;
-		buff = NULL;
-		return (NULL);
-	}
+		return (free(str), str = NULL, NULL);
+	// {
+		// free(buff);
+		// free(str);
+		// str = NULL;
+		// buff = NULL;
+		// return (NULL);
+	// }
 	get_line(fd, buff, &str);
 	free (buff);
 	return (return_line(&str));
