@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:45:58 by ekosnick          #+#    #+#             */
-/*   Updated: 2024/11/06 15:28:26 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/07 09:14:40 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "get_next_line_bonus.h"
 
-static void	get_line(int fd, char *buff, char **str[fd])
+static void	get_line(int fd, char *buff, char **str)
 {
 	char	*temp;
 	ssize_t	len;
 
-	while (!*str[fd] || !ft_strchr(*str[fd], '\n'))
+	while (!*str || !ft_strchr(*str, '\n'))
 	{
 		len = read(fd, buff, BUFFER_SIZE);
 		if (len > 0)
 		{
 			buff[len] = '\0';
-			if (!*str[fd])
-				*str[fd] = ft_strdup(buff);
+			if (!*str)
+				*str = ft_strdup(buff);
 			else
 			{
-				temp = *str[fd];
-				*str[fd] = ft_strjoin(*str[fd], buff);
+				temp = *str;
+				*str = ft_strjoin(*str, buff);
 				free(temp);
 			}
 		}
@@ -37,47 +38,40 @@ static void	get_line(int fd, char *buff, char **str[fd])
 	}
 }
 
-static char	*call_line(char *delim, char ***str[fd])
+static char	*call_line(char *delim, char ***str)
 {
 	char	*temp;
 	char	*line;
 
-	line = ft_substr(**str[fd], 0, delim - **str[fd] + 1);
+	line = ft_substr(**str, 0, delim - **str + 1);
 	if (!line)
-	{
-		free(**str[fd]);
-		**str[fd] = NULL;
-		return (NULL);
-	}
-	else
-	{
-		temp = **str[fd];
-		**str[fd] = ft_strdup(delim + 1);
-		free(temp);
-	}
+		return (free(**str), **str = NULL, NULL);
+	temp = **str;
+	**str = ft_strdup(delim + 1);
+	free(temp);
 	return (line);
 }
 
-static char	*return_line(char **str[fd])
+static char	*return_line(char **str)
 {
 	char	*line;
 	char	*delim;
 
-	if (!*str[fd])
+	if (!*str)
 		return (NULL);
-	delim = ft_strchr(*str[fd], '\n');
+	delim = ft_strchr(*str, '\n');
 	if (!delim)
 	{
-		line = *str[fd];
-		*str[fd] = NULL;
+		line = *str;
+		*str = NULL;
 	}
 	else
 	{
-		line = call_line(delim, &str[fd]);
-		if (*str[fd] && **str[fd] == '\0')
+		line = call_line(delim, &str);
+		if (*str && **str == '\0')
 		{
-			free(*str[fd]);
-			*str[fd] = NULL;
+			free(*str);
+			*str = NULL;
 		}
 	}
 	return (line);
@@ -85,20 +79,14 @@ static char	*return_line(char **str[fd])
 
 char	*get_next_line(int fd)
 {
-	static char	*str[OPEN_MAX];
+	static char	*str[MAX_FD];
 	char		*buff;
 
 	buff = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return (free(str[fd]), str[fd] = NULL, NULL);
 	if (fd == -1 || read(fd, 0, 0) < 0 || BUFFER_SIZE < 1)
-	{
-		free(buff);
-		free(str[fd]);
-		str[fd] = NULL;
-		buff = NULL;
-		return (NULL);
-	}
+		return (free(str[fd]), free(buff), buff = NULL, str[fd] = NULL, NULL);
 	get_line(fd, buff, &str[fd]);
 	free (buff);
 	return (return_line(&str[fd]));

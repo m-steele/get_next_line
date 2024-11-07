@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:47:09 by ekosnick          #+#    #+#             */
-/*   Updated: 2024/11/06 15:25:09 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/07 08:17:56 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+# define MAX_FD 1024
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <limits.h>
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
