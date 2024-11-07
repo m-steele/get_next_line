@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
+/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:45:58 by ekosnick          #+#    #+#             */
-/*   Updated: 2024/11/07 09:14:40 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/07 10:38:03 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
