@@ -3,26 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
+/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:45:58 by ekosnick          #+#    #+#             */
-/*   Updated: 2024/11/08 09:41:10 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/08 10:47:10 by ekosnick         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "get_next_line_bonus.h"
-
-
-
-
-
-
-1. MAKE ADJUSTMENTS TO MATCH THE NON-BONUS SECTION
-
-2. RE-REUN THE NORMINETTE
-
-3. RE-RUN THE TESTS
 
 static void	get_line(int fd, char *buff, char **str)
 {
@@ -36,21 +25,19 @@ static void	get_line(int fd, char *buff, char **str)
 		{
 			free(*str);
 			*str = NULL;
-		}
-		if (len > 0)
-		{
-			buff[len] = '\0';
-			if (!*str)
-				*str = ft_strdup(buff);
-			else
-			{
-				temp = *str;
-				*str = ft_strjoin(*str, buff);
-				free(temp);
-			}
-		}
-		else
 			break ;
+		}
+		else if (len == 0)
+			break ;
+		buff[len] = '\0';
+		if (!*str)
+			*str = ft_strdup(buff);
+		else
+		{
+			temp = *str;
+			*str = ft_strjoin(*str, buff);
+			free(temp);
+		}
 	}
 }
 
