@@ -3,15 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 14:45:58 by ekosnick          #+#    #+#             */
-/*   Updated: 2024/11/07 10:38:03 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:41:10 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include "get_next_line_bonus.h"
+
+
+
+
+
+
+1. MAKE ADJUSTMENTS TO MATCH THE NON-BONUS SECTION
+
+2. RE-REUN THE NORMINETTE
+
+3. RE-RUN THE TESTS
 
 static void	get_line(int fd, char *buff, char **str)
 {
@@ -21,6 +32,11 @@ static void	get_line(int fd, char *buff, char **str)
 	while (!*str || !ft_strchr(*str, '\n'))
 	{
 		len = read(fd, buff, BUFFER_SIZE);
+		if (len < 0)
+		{
+			free(*str);
+			*str = NULL;
+		}
 		if (len > 0)
 		{
 			buff[len] = '\0';
@@ -85,7 +101,7 @@ char	*get_next_line(int fd)
 	buff = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return (free(str[fd]), str[fd] = NULL, NULL);
-	if (fd == -1 || read(fd, 0, 0) < 0 || BUFFER_SIZE < 1)
+	if (fd == -1 || BUFFER_SIZE < 1)
 		return (free(str[fd]), free(buff), buff = NULL, str[fd] = NULL, NULL);
 	get_line(fd, buff, &str[fd]);
 	free (buff);

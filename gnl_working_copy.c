@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_working_copy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekosnick <ekosnick@student.42.fr>          +#+  +:+       +#+        */
+/*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:46:01 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/07 14:42:13 by ekosnick         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:13:40 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	get_line(fd, buff, &str);
-	free (buff);
+	free (buff); /*--> this was the issue, only need to free *str after read*/
 	return (return_line(&str));
 }
-
-
 
 
 // This is Frenec's version that worked and is 

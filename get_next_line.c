@@ -6,7 +6,7 @@
 /*   By: peatjohnston <peatjohnston@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 12:46:01 by peatjohnsto       #+#    #+#             */
-/*   Updated: 2024/11/07 09:04:16 by peatjohnsto      ###   ########.fr       */
+/*   Updated: 2024/11/08 09:35:45 by peatjohnsto      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,23 @@ static void	get_line(int fd, char *buff, char **str)
 	while (!*str || !ft_strchr(*str, '\n'))
 	{
 		len = read(fd, buff, BUFFER_SIZE);
-		if (len > 0)
+		if (len < 0)
 		{
-			buff[len] = '\0';
-			if (!*str)
-				*str = ft_strdup(buff);
-			else
-			{
-				temp = *str;
-				*str = ft_strjoin(*str, buff);
-				free(temp);
-			}
-		}
-		else
+			free(*str);
+			*str = NULL;
 			break ;
+		}
+		else if (len == 0)
+			break ;
+		buff[len] = '\0';
+		if (!*str)
+			*str = ft_strdup(buff);
+		else
+		{
+			temp = *str;
+			*str = ft_strjoin(*str, buff);
+			free(temp);
+		}
 	}
 }
 
@@ -84,7 +87,7 @@ char	*get_next_line(int fd)
 	buff = (char *)malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return (free(str), str = NULL, NULL);
-	if (fd == -1 || read(fd, 0, 0) < 0 || BUFFER_SIZE < 1)
+	if (fd == -1 || BUFFER_SIZE < 1)
 		return (free(str), free(buff), buff = NULL, str = NULL, NULL);
 	get_line(fd, buff, &str);
 	free (buff);
